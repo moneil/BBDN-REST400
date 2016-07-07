@@ -1,7 +1,6 @@
 {
   "name": "BBDN-REST 400",
-  "description": "An introductory Python-based demo of Blackboard Learn REST APIs using 
-  Flask and Bootstrap.",
+  "description": "A Python-based demo of Blackboard Learn REST APIs.",
   "keywords": [
     "flask",
     "LTI",
