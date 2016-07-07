@@ -1,1 +1,1 @@
-web: gunicorn app:bbdnrest400 --log-file -
+web: gunicorn app:app --log-file -
