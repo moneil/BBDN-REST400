@@ -41,17 +41,83 @@
           <div class="col-md-12 text-center">
             <div class="jumbotron">
               <h1>REST Developer Environment Setup</h1>
-              <p>Content to Come...
+              </br><p>The Blackboard Learn Developer Portal and Developer Virtual Machine (DVM) provide the foundation for 
+                developing and testing REST integrations for Blackboard Learn.</p>
+                <p>
+                Developing REST applications requires additional tooling supporting 
+                the delivery of the developed application. </p>
+                <p>
+                This section covers setting up the DVM and additional requirements for
+                local development, testing, and deployment to production machines as used in this demo.
+                </p>
+                <p>
+                This section will focus on the Developer Portal, DVM certificates, static IP addressing, and setting up the python environment
               </p>
-              <a class="btn btn-primary btn-large">Learn more</a>
+              <a href="#about" class="btn btn-primary btn-large">Learn more</a>
             </div>
           </div>
         </div>
       </div>
     </div>
-SSL config
-Using this app out of the box
-Changing to use your Key/Secret
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+    <h3 class="text-primary" id="about">The Developer Portal</h3>
+    <p>The Blackboard Developer Portal is the gateway to delivering your Learn REST applications.
+    An account is not required to read about the APIs, however a Developer account is required to deploy REST applications.
+    </p>
+    </br>
+    <p>
+    <h4 id="regDevAccnt">Registering a Developer Account</h4>
+    To register a Developer Account:
+    <ol>
+      <li>go to the <a href="https://developer.blackboard.com">Developer Portal</a> (https://developer.blackboard.com)</li>
+      <li>click the 'Sign Up' button in the upper left corner of the portal page.</li> 
+      <li>accept the REST Developers Agreement</li>
+      <li>complete the registration form by filling in your contact information</li>
+      <li>click submit</li>
+    </ol>
+    You now have a Blackboard Developer Account! Now you may register and manage your 
+    applications using the 'My Apps' link at the top of the page.
+    <h4 id="regAppRef">Registering an Application Reference</h4>
+    Registering an application is just as easy - all you need to know is the application name.
+    <ol>
+      <li>go to the <a href="https://developer.blackboard.com">Developer Portal</a> (https://developer.blackboard.com)</li>
+      <li>click the 'My Apps' link at the top of the portal page.</li> 
+      <li>this applications page provides a list of the applications you have registered</li>
+      <li>click the '+' icon to the upper left of the page - this will open the application registration dialog</li>
+      <li>enter the name of your application, a description and click save.
+      <li><strong>this is important!</strong> Copy the application key and secret and save them - these are required for authorizing your application using OAuth.
+      <li>click continue</li>
+      <li>your application is created and assigned an application ID - this is used by the Learn administrator to give your application access to their Learn instance.
+    </ol>
+    Congratulations! You have just created a Developer Account and registered an application!
+    </p>
+    <p>
+    Now you need a Learn instance. We will be using the Developer Virtual Machine for this demo, but you may use any development Learn installation as long as it is a post-Q2 2016 Learn release.
+    </p>
+    </br>
+    <p>
+    <h3 class="text-primary" id="DVM">The Developer Virtual Machine</h3>
+    <h4 id="staticIPs">Setting up Static IPs</h4>
+    <h4 id="certs">DVM Certificates</h4>
+    </p>
+    </br>
+    <p>
+    <h3 class="text-primary" id="lrnConfig">Configuring Learn for your REST Application</h3>
+    </p>
+    </br>
+    <p>
+    <h3 class="text-primary" id="bbdnREST400">Using <i>this</i> Application</h3>
+    <h4 id="gtc">Getting the Code</h4>
+    <h4 id="gtc">Setting up your Python environment</h4>
+    <h4 id="gtc">Running the Application</h4>
+    </p>
+          </div>
+        </div>
+      </div>
+    </div>
 
   </body>
 </html>
