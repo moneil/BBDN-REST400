@@ -15,11 +15,11 @@
   "env": {
     "FLASK_SECRET_KEY": {
       "description": "The standard flask secret key for session storage security",
-      "generator": "flasksecret"
+      "generator": "secret"
     },
     "CONSUMER_KEY_SECRET": {
       "description": "OAuth1 Secret for LTI authentication to match `__consumer_key__` consumer name",
-      "generator": "oauthsecret"
+      "generator": "secret"
     },
     "CONSUMER_KEY_PEM_FILE": {
       "description": "If you need to do SSL authentication on top of regular OAUTH, paste in your plain text base64 encoded SSL certificate and private key",
