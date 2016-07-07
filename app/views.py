@@ -1,11 +1,11 @@
 from flask import render_template, request
 from app import app
 import json
-import auth
-import learn_version
-import courses
-import users
-import memberships
+from app import auth
+from app import learn_version
+from app import courses
+from app import users
+from app import memberships
 
 from pylti.flask import lti
 
