@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+
+{% block js %}
+{% endblock %}
+
+
+{% block main %}
+    
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h1>Server Version Request Results</h1>
+            <p>The configured target is: {{target_url}}</p>
+            <p>The request URL is: https://{{target_url}}/learn/api/public/v1/system/version</p>
+            <h3>Version JSON</h3>
+            <p>{{version}}</p>
+            <h3>Version String</h3>
+            <p>{{result["major"]}}.{{result["minor"]}}.{{result["patch"]}}, Build: {{result["build"]}}
+            <p>{{nextpage}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+          <hr>
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h1>What Just Happened?</h1>
+            <p>Explain.</p>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+          <hr>
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <p><h3>Here is a dump of the configuration settings</h3>{{ settings.settings }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}

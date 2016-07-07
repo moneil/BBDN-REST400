@@ -1,0 +1,21 @@
+.*.sw*
+*.pkl
+*~
+.DS_Store
+MANIFEST
+build
+dist
+docs/_build
+docs/index.html
+README.html
+docs/apidocs
+docs/html
+docs/pdf
+src
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# C extensions
+*.so

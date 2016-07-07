@@ -1,0 +1,225 @@
+<html><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/rest404.css" rel="stylesheet" type="text/css">
+  </head><body>
+    <div class="cover">
+      <div class="navbar">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://www.blackboard.com"><img class="bb-home-logo-image" src="/static/img/bb_logo_subpages.png" alt="Blackboard"></a>
+          </div>
+          <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+            <ul class="nav navbar-nav navbar-right">
+              <li class="active" id="community">
+                <a href="https://community.blackboard.com/community/developers">Community</a>
+              </li>
+              <li id="developers" class="active">
+                <a href="https://developer.blackboard.com">Developer</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="background-image-fixed cover-image" style="background-image : url('https://unsplash.imgix.net/uploads/14129863345840df499fc/0165574c?w=1024&amp;q=50&amp;fm=jpg&amp;s=6e5127e797feb9b5a72f7ae4a0f3a89b')"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <h1 class="text-inverse">BBDN-REST 400
+              <br>
+            </h1>
+            <p class="text-inverse" contenteditable="true">A demonstration of Learn REST APIs</p>
+            <p class="text-inverse" contenteditable="true">presented at DevCon 2016 by Mark O'Neil and Reinhold Staudinger</p>
+            <br>
+            <br>
+            <a class="btn btn-lg btn-primary" href="#about">Proceed</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h1 class="text-primary" id="about">About this Demo</h1>
+            <p>You are here because you are interested in the Blackboard REST APIs.
+              This page is either being read from the source (good on you!), in a test environment on your 
+              local hardware, or on-line delivered through any number of server options (we will be using 
+              Heroku).
+            </p>
+            <p>
+              While this demo is written in Python the principles will apply to any language. And we have 
+              developed several demos in languages other than Python. See the below <a href="#resources">resources</a> section for project requirements and useful 
+              links.
+            </p>
+            <p>
+              In the following sections we will show how to setup your local development environment, prepare a 
+              project, develop and run the project locally, and then push the project to a remote testing 
+              environment. All done using freely available resources.
+            </p>
+            <h3>What is Shown?</h3>
+            <p>This site provides details and links for setting up, developing a responsive REST application:
+              <ol>
+                <li><a href="/static/devenv.html">Setting up your local development environment</a></li>
+                <li><a href="/static/devenv.html">Configuring networking for local VMs</a></li>
+                <li><a href="/static/devenv.html">Managing Development self-signed SSL certificates</a></li>
+                <li><a href="/static/flask_bootstrap.html">Basic Flask and Bootstrap setup</a>
+                <li><a href="/static/git_setup.html">Using GIT to push local code to local and remote test environments</a></li>
+              </ol>
+            <p>This site also demonstrates use of Learn REST APIs in a web app environment.</p>
+              <div class="row"><div class="col-md-6">
+                      <ul>
+                        <li><a href="/authorize">Using OAuth and Token management</a></li>
+                        <li><a href="/learn_version">Accessing Learn Version</a></li>
+                        <li><a href="/courses">Accessing and managing Course information</a></li>
+                        <li><a href="/users">Accessing and managing User information</a></li>
+                      </ul>
+              </div>
+              <div class="col-md-6">
+                <ul>
+                  <li>Accessing and managing Membership information</li>
+                  <li>Leveraging LTI and Learn REST APIs</li>
+                  <li>And as an added bonus: Leveraging LTI and Learn REST APIs</li>
+                </ul>
+              </div>
+            </div> 
+        
+          <div class="col-md-12 text-center">
+            <p>
+            <a class="btn btn-lg btn-primary" href="#resources">Requirements and Resources</a>
+            </p>
+          </div>
+
+            
+          <div class="row">
+        <div class="col-md-12">
+          <hr>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <h1 class="text-primary" id="starting">Super Quick Start</h1>
+        <p>Anxious to get a peek at the demo before you spend the time setting up your 
+           development environment? No problem!! 
+        </p>
+        <p>
+          Create a Heroku account at heroku.com (it is free!).
+          You can then try out the demo app by deploying it to your Heroku account simply by clicking 
+          the deploy button:
+        </p>
+        <div class="col-md-12 text-center">
+<a href="https://heroku.com/deploy"><img alt="Deploy" src="https://camo.githubusercontent.com/c0824806f5221ebb7d25e559568582dd39dd1170/68747470733a2f2f7777772e6865726f6b7563646e2e636f6d2f6465706c6f792f627574746f6e2e706e67" data-canonical-src="https://www.herokucdn.com/deploy/button.png" style="max-width:100%;"></a> <i><b>(don't click this yet - it is just a placement that points to a different project.)</b></i></p>
+        </div>
+        <p>
+          After deployment is complete you can customize the app from the Heroku git repository that is 
+          created.
+        </p>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <hr>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <h1 class="text-primary">Quick Start</h1>
+        <p>Not quite ready to create a Heroku account? No problem!! Flask can run the application on your 
+          desktop!
+        </p>
+        <p>
+          If you have already pulled the source you can skip step 1. and proceed to step 2.<br>
+        </p>
+        <p>
+          1. Open your terminal and navigate to the directory you want to contain your working directory. 
+          Execute these commands:
+<pre><code>$git clone git@github.com:blackboard/BBDN-REST400.git
+$cd BBDN-REST400</code></pre><br>
+2. While still in your terminal ensure you are running Python 2.7.11 (Python 3.x will not work) and then execute:
+<pre><code>$pip install -r requirements.txt
+$python run.py</code></pre>
+          Then open your browser and navigate to http://localhost:5000/is_up<br>
+If all went well you will see "The BBDN-REST400 Demo is running." in your browser.
+        </p>
+        <p>
+          http://localhost:5000/ will load the index page which provides the launch points for 
+          the remaining setup and demos.
+        </p>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+          <hr>
+        </div>
+      </div>
+        <div class="row">
+
+    <div class="col-md-12">
+            <h1 class="text-primary" id="resources">Requirements and Resources</h1>
+            <h3 class="text-secondary" >Requirements</h3>
+            <p>The document requirements.txt provides all the dependencies for deploying the application. In Brief:<br>
+             <ul>
+                <li>Python 2.7.11 - Language version</li>
+                <li>Flask 0.10.1 - Controller</li>
+                <li>Bootstrap - UX framework</li>
+                <li>pyLTI 0.1.3 - LTI library</li>
+                <li>Jinja2 2.7.3 - Templating</li>
+                <li>Werkzeug 0.9.6 - Web Server Gateway Interface</li>
+                <li>gunicorn 19.1.1 - Web Server Gateway Interface (WSGI) HTTP server</li>
+                <li>oauth 1.0.1 - OAuth 1.0 libs for LTI</li>
+                <li>oauth2 1.5.211 - OAuth 2.0 libs for REST APIs</li>
+                <li>Flask-WTF 0.10.2 - Flask forms helper</li>
+              </ul> 
+            </p>
+            <h3 class="text-secondary" >Resources</h3>
+            <p>
+              You may find it useful to use a development environment management tool like <a href="http://conda.pydata.org">Conda</a> for managing multiple versions of Python and project environments.
+            </p>
+            <p> Additional resources:
+              <ul>
+                <li><a href="https://developer.blackboard.com/portal/displayApi">REST API Documentation</a></li>
+                <li><a href="http://community.blackboard.com/community/developer/rest">Blackboard REST Developer Community</a></li>
+                <li><a href="http://flask.pocoo.org/">Flask project</a></li>
+                <li><a href="http://getbootstrap.com/">Bootstrap project</a></li>
+                <li><a href="https://github.com/mjhea0/flask-boilerplate/">Flask-Bootstrap boilerplate</a></li>
+                <li><a href="http://heroku.com/">Heroku</a></li>
+                <li><a href="http://blog.shea.io/lightweight-python-apps-with-flask-twitter-bootstrap-and-heroku/">Lightweight Python Apps with Flask, Bootstrap, and Heroku</a></li>
+                <li><a href="http://pylti.readthedocs.io/en/latest/">pyLTI project</a></li>
+              </ul>
+            </p> 
+          </div>
+          <div class="col-md-12 text-center">
+            <p>
+            <a class="btn btn-lg btn-primary" href="#starting">Quick Starts</a>
+            </p>
+          </div>
+        </div>
+          <div class="row">
+        <div class="col-md-12">
+          <hr>
+        </div>
+      </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+Copyright (C) 2016, Blackboard Inc. All rights reserved.<br>
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:<br>
+Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.<br>
+Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.<br>
+Neither the name of Blackboard Inc. nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.<br><br>
+THIS SOFTWARE IS PROVIDED BY BLACKBOARD INC ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL BLACKBOARD INC. BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+          </div>
+        </div>
+      </div>
+    </div>
+    </div></div></div></div>
+    
+  </body></html>

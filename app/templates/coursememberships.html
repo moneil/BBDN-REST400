@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+
+{% block js %}
+{% endblock %}
+
+
+{% block main %}
+    
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h1>Course Membership Collection Request Results</h1>
+            <p>The configured target is: {{target_url}}</p>
+            <p>The request URL is: https://{{target_url}}</p>
+            <h3>Paging JSON</h3>
+            <p>{{pagingJSON}}</p>
+            <h3>nextpageURL</h3>
+            <p>{{nextpageURL}}</p>
+            <h3>dataOffset</h3>
+            <p>{{dataOffset}}</p>
+            <h3>passed course Id</h3>
+            <p>{{selfCourseId}}</p>
+            
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>courseId</th>
+                        <th>userId</th>
+                        <th>courseRoleId</th>                        
+                        <th>created</th>
+                        <th>available</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for result in resultsJSON["results"] %}
+                <tr>
+                    <td><a href="/course/{{result['courseId']}}" class="btn btn-sm btn-primary" role="button">course info</a>
+                    <a href="/user/{{result['userId']}}" class="btn btn-sm btn-primary" role="button">user info</a></td>
+                    <td>{{ result["courseId"]}}</td>
+                    <td>{{ result["userId"]}}</td>
+                    <td>{{ result["courseRoleId"]}}</td>
+                    <td>{{ result["created"]}}</td>
+                    {% if (result["availability"]) %}
+                    <td>{{ result["availability"]["available"]}}</td>
+                    {% else %}
+                    <td>Unset</td>
+                    {% endif %}
+
+        	    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div> <!-- end data table -->
+            {% if (None != dataOffset) %}
+            <div class="col-md-12 text-center">
+              <p>
+              <a href="/courses/memberships/{{selfCourseId}}?paginateId={{dataOffset}}" class="btn btn-lg btn-primary" role="button">Next Page</a>
+              </p>
+            </div>
+            {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+          <hr>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h1>What Just Happened?</h1>
+            <p>Explain.</p>
+            <h3>Memberships JSON</h3>
+            <p>{{membersJSON}}</p>
+            </div>
+        </div>
+        
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+          <hr>
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <p><h3>Here is a dump of the configuration settings</h3>{{ settings.settings }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}

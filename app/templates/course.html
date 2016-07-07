@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+
+{% block js %}
+{% endblock %}
+
+
+{% block main %}
+    
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h1>Course Details Request Results</h1>
+            <p>The configured target is: {{target_url}}</p>
+            <p>The request URL is: https://{{target_url}}</p>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+          <hr>
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h1>Course Details</h1>  
+            <div class="table-responsive">
+              <table class="table table-striped">
+                {% for key, value in resultsJSON.iteritems() %}
+                <tr>
+                  {% if (key == 'availability') %}
+                    <th>available</th>
+                    <td>{{ resultsJSON["availability"]["available"] }}</td>
+                  {% elif (key == 'enrollment') %}
+                    <th>duration</th>
+                    <td>{{ resultsJSON["availability"]["duration"]["type"] }}</td>
+                  {% elif (key == 'enrollment') %}
+                    <th>enrollment</th>
+                    <td>{{ resultsJSON['enrollment']['type'] }}</td>
+                  {% elif (key == 'locale') %}
+                    <th>force locale?</th>
+                    <td>{{ resultsJSON['locale']['force'] }}</td>
+                  {% else %}
+                    <th> {{ key }} </th>
+                    <td> {{ value }} </td>
+                  {% endif %}
+                </tr>
+                {% endfor %}
+                </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+          <hr>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h1>What Just Happened?</h1>
+            <p>Explain.</p>
+            <h3>Course JSON</h3>
+            <p>{{courseJSON}}</p>
+            </div>
+        </div>
+        
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+          <hr>
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <p><h3>Here is a dump of the configuration settings</h3>{{ settings.settings }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}

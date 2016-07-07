@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+
+{% block js %}
+{% endblock %}
+
+
+{% block main %}
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">           
+            <h1>OAuth Results</h1>
+            <p>The configured target is: {{target_url}}</p>
+            <p>The returned OAuth Token is: {{oauth_token}}</p>
+            <p>The token expires in: {{expires_in}}</p>
+            <p>cached TOKEN: {{config_token}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+          <hr>
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h1>What Just Happened?</h1>
+            <p>Explain.</p>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+          <hr>
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <p><h3>Here is a dump of the configuration settings</h3>{{ settings.settings }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
