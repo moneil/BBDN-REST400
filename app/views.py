@@ -392,3 +392,7 @@ def UserMemberships(userId=None):
                             nextpageURL=nextpageURL,
                             dataOffset=dataOffset,
                             settings=settings) 
+
+
+if __name__ == '__main__':
+    app.run()
