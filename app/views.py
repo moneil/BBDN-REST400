@@ -1,4 +1,5 @@
-from flask import render_template, request
+from flask import render_template
+from flask import request
 from app import app
 import json
 from app import auth
