@@ -14,10 +14,10 @@ DEBUG = True
 SECRET_KEY = os.environ.get("FLASK_SECRET_KEY", "you-will-never-guess")
 
 CERT_PATH = "./certs/dev.bbdn.local.pem"
-OAUTH_KEY = "8907d3c7-b43c-4e52-864c-ba43e0a1f23f"
-OAUTH_SECRET = "tgyDtZxV1Nw0uNX2ZUOK5pbvTt0j2ybK"
+#OAUTH_KEY = "8907d3c7-b43c-4e52-864c-ba43e0a1f23f"
+#OAUTH_SECRET = "tgyDtZxV1Nw0uNX2ZUOK5pbvTt0j2ybK"
 #TARGET_URL = "dev.bbdn.local:8443"
-TARGET_URL = "ultra-integ.int.bbpd.io"
+#TARGET_URL = "ultra-integ.int.bbpd.io"
 TOKEN = ""
 LIMIT=10
 OFFSET=0
