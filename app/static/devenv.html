@@ -96,23 +96,147 @@
     </p>
     <p>
     Now you need a Learn instance. We will be using the Developer Virtual Machine for this demo, but you may use any development Learn installation as long as it is a post-Q2 2016 Learn release.
-    </p>
+  </p>
     </br>
     <p>
-    <h3 class="text-primary" id="DVM">The Developer Virtual Machine</h3>
+    <h3 class="text-primary" id="DVM">Local Development Machines</h3>
+    <h4 class="text-primary" id="DVM">The Developer Virtual Machine</h4>
+    The Blackboard Learn Developer Virtual Machine (DVM) is a Vagrant image that allows you to run Blackboard Learn 
+    in a virtualized environment such as Virtual Box. You may read about <a href="https://community.blackboard.com/docs/DOC-1104#comment-5260">
+    how to install and use the DVM</a> on our Community Developers site.
+    <p>
+    When working with REST there are some additional considerations for your development environment and particularly the DVM.
+    Notably, it is useful to have static IPs so that local VMs, e.g. one DVM and one app server, may co-exist and communicate to each
+    other. This is accomplished by adding a network configuration to your Vagrantfiles and configuring the hosts file on your operating system and virtual machines. 
+    You will need to know your private addressing. This will likely be either 10.0 or 192.168 addressing and can be discovered by viewing your operating system's network settings.
+    </p>
+    <p>
     <h4 id="staticIPs">Setting up Static IPs</h4>
-    <h4 id="certs">DVM Certificates</h4>
+    <h5>Vagrantfile</h5>
+    Vagrant provides the means to assign a static IP to the virtual machine it manages. This is done by
+    editing the Vagrantfile and adding <code>config.vm.network :public_network, ip: "10.0.0.101"</code>
+    to the config section. You may place this near the end of the file before the final line containing 'end':
+    <pre><code>
+Vagrant.configure("2") do |config|
+  ...
+  config.ssh.password = "vagrant"
+  ...
+  config.vm.network :forwarded_port, guest: 5432, host: 9879
+  config.vm.network :public_network, ip: "10.0.0.100" # above other devices on my private network
+end</code></pre>
+    </p>
+        <h4 class="text-primary" id="DVM">REST Server Virtual Machine</h4>
+    <p>While you can avoid setting up a REST server VM by leveraging a WSGI server - Python offers 
+      several options (this demo uses Werkzeug for testing and Gnunicorn for the local REST VM and Heroku), 
+      you may find it useful as to have a test environment that emulates your final production system. 
+      There are several freely available Vagrant images to choose from (search for "free vagrant boxes"). You may use the following Vagrantfile for creating a Vagrant VM REST application server:
+<pre><code># -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+    config.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--memory", "4096"]
+  end
+  config.ssh.password = "vagrant"
+  config.vm.box = 'wily-server-cloudimg-amd64-vagrant-disk1.box'
+  config.vm.box_url = 'https://cloud-images.ubuntu.com/vagrant/wily/20160706/wily-server-cloudimg-amd64-vagrant-disk1.box'
+  config.vm.network :forwarded_port, guest: 80, host: 7780
+  config.vm.network :forwarded_port, guest: 5000, host: 7750
+  config.vm.network :forwarded_port, guest: 2221, host: 7740
+  config.vm.network :public_network, ip: "10.0.0.101"
+end
+</code></pre>
+The .box file will be downloaded when you enter <code>$vagrant up</code> to start the VM.</p>
+    <p>
+    Now that the VMs are set to use static IPs you may address them via the IP, but you can address it by name if you
+    add them to your hosts file. This is particularly useful if you are using certificates bound to the VM's hostname.
+    The DVM uses "dev.bbdn.local" so that is what we will use here.</b>
+    The above REST VM uses "vagrant-ubuntu-wily-64".
+    </p>
+    <p>
+    <h4 class="text-primary">Hosts file</h4>
+    To access the VMs from your system by name you need to add their IP:hostname pairs to your operating systems hosts file.
+On OSX edit your <code>/private/etc/hosts</code> file and restart:</p>
+<p>
+<pre><code>##
+127.0.0.1       localhost
+255.255.255.255 broadcasthost
+::1             localhost
+#my vms
+10.0.0.100      dev.bbdn.local
+10.0.0.101      vagrant-ubuntu-wily-64</code></pre></p>
+<p>On Windows you may follow the instructions at <a href="http://www.howtogeek.com/howto/27350/beginner-geek-how-to-edit-your-hosts-file/">howtogeek.com</a></p>
+<p>Making similar entries in the hosts files on the VMs will allow the VMs to communicate.
     </p>
     </br>
     <p>
     <h3 class="text-primary" id="lrnConfig">Configuring Learn for your REST Application</h3>
+    REST is enabled on Learn by default but for security purposes only Learn Admin 
+    registered applications will respond to REST requests.
+    </p>
+    <p>
+    Instructions for Learn Administrators is located in the 
+    <a href="https://community.blackboard.com/docs/DOC-1580">Managing REST Integrations in Learn</a> document on the Blackboard Community site.
+    </p>
+    <p>
+    In brief the Learn Administrator creates a REST Integration using the REST Integrations tool using the 
+    applicationID for your application - available on the Developer Portal on the My Apps page.
+    The Learn Administrator will also need to create a User as which the application will run. This User's role 
+provides the necessary entitlements for REST API access. (see <a href="https://community.blackboard.com/docs/DOC-1733">The Blackboard REST API Framework</a>)
     </p>
     </br>
     <p>
     <h3 class="text-primary" id="bbdnREST400">Using <i>this</i> Application</h3>
-    <h4 id="gtc">Getting the Code</h4>
-    <h4 id="gtc">Setting up your Python environment</h4>
-    <h4 id="gtc">Running the Application</h4>
+    There are a few options for using this application - you can:
+    <ul>
+      <li>view it at https://bbdn-REST400.herokuapp.com: just visit the site and play.</li>
+      <li>install it on your own heroku site: see the Super Quick link on the index page.</li>
+      <li>run it locally.</li>
+    </ul>
+    <h4 class="text-primary" id="DVM">Running BBDN-REST400 locally</h4>
+    There are a few steps that need to be completed in order to run this app locally. 
+    The following should get you going presuming you have already performed the steps necessary to provide
+    a test Learn instance e.g. the Developer Virtual Machine, and registered an application on the Developer Portal.
+    <ol><li><h5 id="gtc">Get the Code</h5>
+    The code is available on github and may be downloaded from https://github.com/moneil/bbdn-rest400. 
+    </li>
+    <li>
+    <h5 id="spe">Setting up your Python Environment</h5>
+    <ul>
+      <li>make sure you have Python 2.7.11 installed.</li>
+      <li>using a terminal:
+        <ul>
+          <li>cd to the project directory</li>
+          <li><code>run $pip install -r requirements.txt</code></li>
+        </ul>
+      </li>
+    </ul>
+    </li>
+    <h5 id="sle">Set up your Learn Environment</h5>
+    Using the applicationId create a REST Integration as outlined above. Asign your created User a Role with 
+    the following privileges:
+    <ul>
+      <li>course.configure-properties.EXECUTE >> Course/Organization Control Panel (Customization) > Properties</li>
+      <li>course.user.VIEW >>	Course/Organization Control Panel (Users and Groups) > Users</li>
+      <li>system.user.course.enrollment.VIEW >> Course/Organization Control Panel (Users and Groups) > Users</li>
+      <li>system.user.VIEW >>	Administrator Panel (Users) > Users</li>
+    </ul>
+    </ol>
+    </p>
+    <p>
+    <h5 id="ra">Running the Application</h5>
+    The easiest way to run the application locally is to open a terminal and:
+    <ul>
+          <li>cd to the project directory</li>
+          <li><code>run $python run.py</code></li>
+    </ul>
+    </p>
+    <p>
+        This starts the application using the bundled werkzeug wgsi. note that editing the source will cause werkzeug to restart.
+        Any runtime errors are printed in both the terminal and the browser, and the application dumps some debug information into the terminal.
+    </p>
+    <p>
+      You may also set up a separate wgsi comaptible http server such as Gnunicorn or Apache (requires mod_wsgi). 
     </p>
           </div>
         </div>

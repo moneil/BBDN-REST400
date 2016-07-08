@@ -21,6 +21,18 @@
       "description": "OAuth1 Secret for LTI authentication to match `__consumer_key__` consumer name",
       "generator": "secret"
     },
+    "APP_OAUTH_KEY": {
+      "description": "Paste the OAUTH KEY provided when you registered your Application",
+      "required": true
+    },
+    "APP_OAUTH_SECRET": {
+      "description": "Paste the OAUTH SECRET provided when you registered your Application",
+      "required": true
+    },
+    "APP_TARGET_URL": {
+      "description": "Enter the target URL for your Application",
+      "required": true
+    },
     "CONSUMER_KEY_PEM_FILE": {
       "description": "If you need to do SSL authentication on top of regular OAUTH, paste in your plain text base64 encoded SSL certificate and private key",
       "required": false

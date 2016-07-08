@@ -28,8 +28,11 @@ USER_PATH = "/learn/api/public/v1/users/"
 COURSE_MEMBERSHIPS_PATH = '/learn/api/public/v1/courses/<courseId>/users?limit=%s&offset=%s' % (LIMIT, OFFSET)
 USER_MEMBERSHIPS_PATH = '/learn/api/public/v1/users/<userId>/courses?limit=%s&offset=%s' % (LIMIT, OFFSET)
 
-
-
+#Heroku configs Comment out if not using Heroku Toolbelt or Heroku deployment
+OAUTH_KEY = os.environ.get('APP_OAUTH_KEY', '')
+OAUTH_SECRET = os.environ.get('APP_OAUTH_SECRET', '')
+TARGET_URL = os.environ.get('APP_TARGET_URL', '')
+      
 # Sample client certificate example for 12 factor app
 # You would want to store your entire pem in an environment variable
 # with something like:
