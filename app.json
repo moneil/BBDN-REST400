@@ -30,7 +30,7 @@
       "required": true
     },
     "APP_TARGET_URL": {
-      "description": "Enter the target URL for your Application",
+      "description": "Enter the target URL for your Application. E.g.: learn.myschool.edu. Do NOT include the protocol (http:// or https://)",
       "required": true
     },
     "CONSUMER_KEY_PEM_FILE": {
