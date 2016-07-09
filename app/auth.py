@@ -219,5 +219,5 @@ class AuthToken():
             hours, remainder = divmod(tdelta.seconds, 3600)
             minutes, seconds = divmod(remainder, 60)    
             app.config["TOKEN_EXPIRES_IN"] = "%02d:%02d" % (minutes, seconds)
-            print("[auth.confirmToken()] TOKEN GOOD")
+            print("[auth.confirmToken()] TOKEN GOOD - TOKEN_EXPIRES_IN UPDATED")
 
