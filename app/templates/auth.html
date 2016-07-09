@@ -80,7 +80,7 @@ def authorize():
                            expires_in=app.config["TOKEN_EXPIRES_IN"],
                            config_token=app.config["TOKEN"],
                            settings=settings)
-</code></pre>
+                </code></pre>
               </p>
               <p>
 Note that confirm token checks whether the app is already authorized and simply updates when 
@@ -97,7 +97,7 @@ def confirmToken(self, app ):
     #get a new token by calling setToken()
   else: #the token exists and is good and we just update the cached expiration time cached
     app.config["TOKEN_EXPIRES_IN"] = "%02d:%02d" % (minutes, seconds)
-</code></pre>
+                </code></pre>
               </p>
               </div>
         </div>
