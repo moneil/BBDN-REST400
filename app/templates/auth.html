@@ -13,6 +13,7 @@
             <h1>OAuth Results</h1>
             <p>The configured target is: {{target_url}}</p>
             <p>The returned OAuth Token is: {{oauth_token}}</p>
+            <p>The token expires at: {{expires_at}}</p>
             <p>The token expires in: {{expires_in}}</p>
             <p>cached TOKEN: {{config_token}}</p>
           </div>
@@ -29,8 +30,70 @@
         <div class="row">
           <div class="col-md-12">
             <h1>What Just Happened?</h1>
-            <p>Explain.</p>
-            </div>
+            <p>The Blackbooard Learn REST APIs use OAuth as part of the chain of security and we just 
+              confirmed the target system has authorized access for our application. When an application 
+              is registered it is bound to an applicationID and OAuth Key and Secret. The Learn Admin creates 
+              an integration record in Learn providing the ApplicationID and a User which the application runs 
+              as when processing requests to the Learn system (more on this in a bit). 
+              The REST Application sends it's Key and Secret in the request and that along with the applicationID is validated and a token is returned.
+              In Python the code this looks like this (from auth.py):
+              </p>
+              <p>
+                <pre><code>
+...
+# set the request payload - the grant_type "client_credentials" is used for all REST requests
+self.PAYLOAD = {
+  'grant_type':'client_credentials'
+}
+...
+# setToken is called whenever it is necessary to get a token. The target URL is passed along 
+# with the OAUTH key and secret. The oauth endpoint of 
+def setToken(self, url, key, secret):
+  oauth_path = '/learn/api/public/v1/oauth2/token' #the oauth endpoint 
+  OAUTH_URL = 'https://' + url + oauth_path
+  ...
+  # verify=False for unverified certificates, remove for commercial certs, set to cert path for others
+  r = session.post(OAUTH_URL, data=self.PAYLOAD, auth=(key, secret), verify=False)
+  ...
+  parsed_json = json.loads(r.text) #load json into a python dict (hashmap)
+  self.TOKEN = parsed_json['access_token'] #read the token value
+  ...
+  return self.TOKEN
+                </code></pre>
+              </p>
+              <p>
+From a web app perspective Flask provides the controller that takes the incomming URL, identifies the 
+resource and loads the associated code. This is done via the @app.route annotation. Here is the example 
+for the /authorize resource (from view.py):
+<pre><code>
+@app.route('/authz')
+@app.route('/authorize')
+def authorize():
+...
+    #check authZ
+    auth.AuthToken(target, app.config["CERT_PATH"]).confirmToken(app)
+    #render the resulting page 
+    return render_template('auth.html',
+                           target_url=target,
+                           oauth_token=app.config["TOKEN"],
+                           expires_at=app.config["TOKEN_EXPIRES"],
+                           expires_in=app.config["TOKEN_EXPIRES_IN"],
+                           config_token=app.config["TOKEN"],
+                           settings=settings)
+</code></pre>
+Note that confirm token checks whether the app is already authorized and simply updates when 
+the token expires in the configuration. If the token is expired or not already 
+set it will make an authentication request and set the app token and expiration. This saves by making
+token requests only when necessary and is used at the head of every request.
+<pre><code>
+def confirmToken(self, app ):
+  ...
+  #if there is no token (first run) or the token has expired 
+  if ((app.config["TOKEN"] == None) or (datetime.datetime.now() > app.config["TOKEN_EXPIRES"])):
+    #get a new token by calling setToken()
+  else: #the token exists and is good and we just update the cached expiration time cached
+    app.config["TOKEN_EXPIRES_IN"] = "%02d:%02d" % (minutes, seconds)
+</code></pre>          </div>
         </div>
       </div>
     </div>
