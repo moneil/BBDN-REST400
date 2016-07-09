@@ -81,10 +81,14 @@ def authorize():
                            config_token=app.config["TOKEN"],
                            settings=settings)
 </code></pre>
+              </p>
+              <p>
 Note that confirm token checks whether the app is already authorized and simply updates when 
 the token expires in the configuration. If the token is expired or not already 
 set it will make an authentication request and set the app token and expiration. This saves by making
 token requests only when necessary and is used at the head of every request.
+              </p>
+              <p>
 <pre><code>
 def confirmToken(self, app ):
   ...
@@ -93,7 +97,9 @@ def confirmToken(self, app ):
     #get a new token by calling setToken()
   else: #the token exists and is good and we just update the cached expiration time cached
     app.config["TOKEN_EXPIRES_IN"] = "%02d:%02d" % (minutes, seconds)
-</code></pre>          </div>
+</code></pre>
+              </p>
+              </div>
         </div>
       </div>
     </div>
