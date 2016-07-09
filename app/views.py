@@ -7,6 +7,7 @@ from app import learn_version
 from app import courses
 from app import users
 from app import memberships
+import datetime
 
 from pylti.flask import lti
 
@@ -41,19 +42,14 @@ def authorize():
     """
     settings = {'settings':app.config}
     target = app.config["TARGET_URL"]
-    auth_session = auth.AuthToken(target,
-                                  app.config["CERT_PATH"])
-    token = auth_session.getToken(target, 
-                                  app.config["OAUTH_KEY"], 
-                                  app.config["OAUTH_SECRET"])
-    app.config["TOKEN"]=token
-
-    expires_in = auth_session.getExpiresIn()
+    #check authZ
+    auth.AuthToken(target, app.config["CERT_PATH"]).confirmToken(app)
 
     return render_template('auth.html',
                            target_url=target,
-                           oauth_token=token,
-                           expires_in=expires_in,
+                           oauth_token=app.config["TOKEN"],
+                           expires_at=app.config["TOKEN_EXPIRES"],
+                           expires_in=app.config["TOKEN_EXPIRES_IN"],
                            config_token=app.config["TOKEN"],
                            settings=settings)
 
@@ -63,10 +59,11 @@ def lrnVersion():
     Return Learn Version
     """
     settings = {'settings':app.config}
-    #lrnSsn = 
     target = app.config["TARGET_URL"]
-    #version is a JSON.parsed
     
+    #check authZ
+    auth.AuthToken(target, app.config["CERT_PATH"]).confirmToken(app)
+
     result = learn_version.LearnVersion().getLearnVersion(target, app.config["OAUTH_KEY"], app.config["OAUTH_SECRET"], app.config['TOKEN'])
     versionJSON = json.dumps(result)
     return render_template('learn_version.html',
@@ -91,16 +88,8 @@ def Courses(paginateId=None):
         target = (target[:(target.rfind('=')-len(target))])+"="+paginateId
 
     #check authZ
-    if (app.config["TOKEN"] == ""):
-        print("TOKEN NOT SET")
-        authtarget = app.config["TARGET_URL"]
+    auth.AuthToken(target, app.config["CERT_PATH"]).confirmToken(app)
 
-        auth_session = auth.AuthToken(authtarget,
-                                      app.config["CERT_PATH"])
-        token = auth_session.getToken(authtarget, 
-                                      app.config["OAUTH_KEY"], 
-                                      app.config["OAUTH_SECRET"])
-        app.config["TOKEN"]=token
     
     result = courses.Courses().getCourses(target, app.config["OAUTH_KEY"], app.config["OAUTH_SECRET"], app.config['TOKEN'])
     coursesJSON = json.dumps(result)
@@ -147,17 +136,8 @@ def Users(paginateId=None):
         target = (target[:(target.rfind('=')-len(target))])+"="+paginateId
 
     #check authZ
-    if (app.config["TOKEN"] == ""):
-        print("TOKEN NOT SET")
-        authtarget = app.config["TARGET_URL"]
-
-        auth_session = auth.AuthToken(authtarget,
-                                      app.config["CERT_PATH"])
-        token = auth_session.getToken(authtarget, 
-                                      app.config["OAUTH_KEY"], 
-                                      app.config["OAUTH_SECRET"])
-        app.config["TOKEN"]=token
-    
+    auth.AuthToken(target, app.config["CERT_PATH"]).confirmToken(app)
+ 
     result = courses.Courses().getCourses(target, app.config["OAUTH_KEY"], app.config["OAUTH_SECRET"], app.config['TOKEN'])
     usersJSON = json.dumps(result)
     nextpageURL = result["paging"]["nextPage"]
@@ -199,7 +179,6 @@ def Memberships(courseId=None):
     
     settings = {'settings':app.config}
     target = app.config["TARGET_URL"] + app.config["COURSE_MEMBERSHIPS_PATH"]
-    #insert courseID into target
 
     target = target.replace("<courseId>", courseId)
 
@@ -213,15 +192,8 @@ def Memberships(courseId=None):
     print ("[views:Memberships] Altered target: %s" % target)
 
     #check authZ
-    if (app.config["TOKEN"] == ""):
-        print("[views:Memberships] TOKEN NOT SET")
-        authtarget = app.config["TARGET_URL"]
-        auth_session = auth.AuthToken(authtarget,
-                                      app.config["CERT_PATH"])
-        token = auth_session.getToken(authtarget, 
-                                      app.config["OAUTH_KEY"], 
-                                      app.config["OAUTH_SECRET"])
-        app.config["TOKEN"]=token
+    auth.AuthToken(target, app.config["CERT_PATH"]).confirmToken(app)
+
     result = memberships.Memberships().getCourseMemberships(target, app.config["OAUTH_KEY"], app.config["OAUTH_SECRET"], app.config['TOKEN'])
     membersJSON = json.dumps(result)
     nextpageURL = None
@@ -270,19 +242,8 @@ def Course(courseId=None):
         print("[view::Course] target = %s" % target)
 
     #check authZ
-    if (app.config["TOKEN"] == ""):
-        print("TOKEN NOT SET")
-        authtarget = app.config["TARGET_URL"]
-
-        auth_session = auth.AuthToken(authtarget,
-                                      app.config["CERT_PATH"])
-        token = auth_session.getToken(authtarget, 
-                                      app.config["OAUTH_KEY"], 
-                                      app.config["OAUTH_SECRET"])
-        app.config["TOKEN"]=token
-
-
-  
+    auth.AuthToken(target, app.config["CERT_PATH"]).confirmToken(app)
+ 
     result = courses.Courses().getCourse(target, app.config["OAUTH_KEY"], app.config["OAUTH_SECRET"], app.config['TOKEN'])
     courseJSON = json.dumps(result)
     
@@ -308,17 +269,8 @@ def User(userId=None):
         print("[view::User] target = %s" % target)
 
     #check authZ
-    if (app.config["TOKEN"] == ""):
-        print("TOKEN NOT SET")
-        authtarget = app.config["TARGET_URL"]
+    auth.AuthToken(target, app.config["CERT_PATH"]).confirmToken(app)
 
-        auth_session = auth.AuthToken(authtarget,
-                                      app.config["CERT_PATH"])
-        token = auth_session.getToken(authtarget, 
-                                      app.config["OAUTH_KEY"], 
-                                      app.config["OAUTH_SECRET"])
-        app.config["TOKEN"]=token
-  
     result = users.Users().getUser(target, app.config["OAUTH_KEY"], app.config["OAUTH_SECRET"], app.config['TOKEN'])
     userJSON = json.dumps(result)
     
@@ -354,15 +306,8 @@ def UserMemberships(userId=None):
     print ("Altered target: %s" % target)
 
     #check authZ
-    if (app.config["TOKEN"] == ""):
-        print("TOKEN NOT SET")
-        authtarget = app.config["TARGET_URL"]
-        auth_session = auth.AuthToken(authtarget,
-                                      app.config["CERT_PATH"])
-        token = auth_session.getToken(authtarget, 
-                                      app.config["OAUTH_KEY"], 
-                                      app.config["OAUTH_SECRET"])
-        app.config["TOKEN"]=token
+    auth.AuthToken(target, app.config["CERT_PATH"]).confirmToken(app)
+
     result = memberships.Memberships().getUserMemberships(target, app.config["OAUTH_KEY"], app.config["OAUTH_SECRET"], app.config['TOKEN'])
 
     membersJSON = json.dumps(result)

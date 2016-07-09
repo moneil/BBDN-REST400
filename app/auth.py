@@ -123,7 +123,7 @@ class AuthToken():
 
             else:
                 print("[auth:setToken()] ERROR")
-                return "[auth:setToken()] ERROR"
+                return None
         else:
             print ("[auth:setToken()] TOKEN set")
             return self.TOKEN
@@ -191,3 +191,33 @@ class AuthToken():
         m, s = divmod((self.EXPIRES_AT - datetime.datetime.now()).total_seconds(), 60)
         expires_in = "%d:%d [m:s]" % (m, s)
         return expires_in
+
+    def getExpiresAt(self):
+        return self.EXPIRES_AT
+
+    def confirmToken(self, app ):
+        FMT = '%H:%M:%S'
+
+        if ((app.config["TOKEN"] == None) or (datetime.datetime.now() > app.config["TOKEN_EXPIRES"])):
+            print("[auth.confirmToken()] TOKEN EXPIRED: acquiring new token")
+            self.setToken( app.config["TARGET_URL"], app.config["OAUTH_KEY"], app.config["OAUTH_SECRET"] )
+
+           
+            app.config["TOKEN"] = self.TOKEN
+            app.config["TOKEN_EXPIRES"] = self.EXPIRES_AT
+            tdelta = app.config["TOKEN_EXPIRES"] - datetime.datetime.now()
+            hours, remainder = divmod(tdelta.seconds, 3600)
+            minutes, seconds = divmod(remainder, 60)    
+            app.config["TOKEN_EXPIRES_IN"] = "%02d:%02d" % (minutes, seconds)
+            
+            print ("[auth.confirmToken()]TOKEN: %s" % app.config["TOKEN"])
+            print ("[auth.confirmToken()]TOKEN_EXPIRES: %s" % app.config["TOKEN_EXPIRES"])
+            print ("[auth.confirmToken()]Token expires in: %02d:%02d minutes:seconds." % (minutes, seconds))
+
+        else:
+            tdelta = app.config["TOKEN_EXPIRES"] - datetime.datetime.now()
+            hours, remainder = divmod(tdelta.seconds, 3600)
+            minutes, seconds = divmod(remainder, 60)    
+            app.config["TOKEN_EXPIRES_IN"] = "%02d:%02d" % (minutes, seconds)
+            print("[auth.confirmToken()] TOKEN GOOD")
+
