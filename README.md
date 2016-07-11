@@ -3,8 +3,6 @@ Python Demo of Learn REST APIs using Flask and Bootstrap
 
 If you wish you may visit <a href="https://bbdn-rest400.heroku.app">https://bbdn-rest400.heroku.app</a> to view this demo. You may also download and run locally or use the below button to deploy to your heroku account.
 
-##Download or Deploy
-
 <a href="https://heroku.com/deploy">
   <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy">
 </a>
