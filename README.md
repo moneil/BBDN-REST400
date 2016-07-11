@@ -9,3 +9,5 @@ If you wish you may visit <a href="https://bbdn-rest400.heroku.app">https://bbdn
 
 Whether you download or deploy to run the demo you will need to visit developer.blackboard.com, create a developer account and application. You will use the key and secret in the heroku deploy page or to update config.py if running locally. 
 
+If running locally you may open the toplevel index.html page to get started with instructions on how to get started.
+
