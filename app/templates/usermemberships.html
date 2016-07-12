@@ -12,6 +12,7 @@
         <div class="row">
           <div class="col-md-12">
             <h1>User Membership Collection Request Results</h1>
+            <p>API available since: 2015.11.0</p>
             <p>The configured target is: {{target_url}}</p>
             <p>The request URL is: https://{{target_url}}</p>
             <h3>Paging JSON</h3>
@@ -84,7 +85,91 @@
         <div class="row">
           <div class="col-md-12">
             <h1>What Just Happened?</h1>
-            <p>Explain.</p>
+            <p>
+              Explain.
+            </p>
+              <p>
+                <pre><code>
+def getUserMemberships(self, url, key, secret, token):
+        #GET /learn/api/public/v1/users/{userId}/courses
+        print('[Membership:readUserMemberships] token: ' + token)
+        #"Authorization: Bearer $token"
+        authStr = 'Bearer ' + token
+        print('[Membership:getUserMemberships] authStr: ' + authStr)
+        session = requests.session()
+        print("[Membership:getUserMemberships()] GET Request URL: https://%s" % url)
+        print("[Membership:getUserMemberships()] JSON Payload: NONE REQUIRED")
+        r = session.get("https://" + url, headers={'Authorization':authStr},  verify=False)
+        print("[Membership:getUserMemberships()] STATUS CODE: " + str(r.status_code) )
+        print("[Membership:getUserMemberships()] RESPONSE:")
+        print 
+        if r.text:
+            parsed_json = json.loads(r.text)
+        else:
+            parsed_json = None
+            print("NONE")
+
+        return parsed_json
+                </code></pre>
+            </p>
+            <p>
+              Flask 
+              </p>
+              <p>
+              <pre><code>
+@app.route('/users/memberships/<userId>')
+def UserMemberships(userId=None):
+    """
+    Return User Memberships Collection
+    """
+    paginateId = request.args.get('paginateId', None)
+    
+    settings = {'settings':app.config}
+    target = app.config["TARGET_URL"] + app.config["USER_MEMBERSHIPS_PATH"]
+    #insert courseID into target
+
+    if paginateId is None:
+        # This is only used by the visit_form on the index page.
+        print("paginateId = None: Using configured users_path.")
+    else:
+        target = (target[:(target.rfind('=')-len(target))])+"="+paginateId
+
+    #check authZ
+    auth.AuthToken(target, app.config["CERT_PATH"]).confirmToken(app)
+
+    result = memberships.Memberships().getUserMemberships(target, app.config["OAUTH_KEY"], app.config["OAUTH_SECRET"], app.config['TOKEN'])
+
+    membersJSON = json.dumps(result)
+
+    if (result["paging"]):
+        nextpageURL = result["paging"]["nextPage"]
+        dataOffset = nextpageURL[(nextpageURL.rfind('=')+1-len(nextpageURL)):]
+    else:
+        dataOffset = 0
+        nextpageURL = None
+     
+    print("dataOffset: %s" %dataOffset)
+    print("dataOffset: %s" % app.config["LIMIT"])
+
+    limitInt = int(app.config["LIMIT"])
+    dataOffsetInt = int(dataOffset)
+
+    if (dataOffsetInt <= limitInt):
+        dataOffset = None
+
+    print("dataOffset: %s" %dataOffset)
+
+    return render_template('coursememberships.html',
+                            target_url=target,
+                            membersJSON=membersJSON,
+                            resultsJSON=result,
+                            pagingJSON=result["paging"],
+                            nextpageURL=nextpageURL,
+                            dataOffset=dataOffset,
+                            settings=settings) 
+
+                </code></pre>
+            </p>
             <h3>Memberships JSON</h3>
             <p>{{membersJSON}}</p>
             </div>

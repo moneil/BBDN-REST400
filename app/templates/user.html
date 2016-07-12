@@ -12,6 +12,7 @@
         <div class="row">
           <div class="col-md-12">
             <h1>User Details Request Results</h1>
+            <p>API available since: 3000.1.0</p>
             <p>The configured target is: {{target_url}}</p>
             <p>The request URL is: https://{{target_url}}</p>
             </div>
@@ -72,7 +73,73 @@
         <div class="row">
           <div class="col-md-12">
             <h1>What Just Happened?</h1>
-            <p>Explain.</p>
+            <p>
+              Explain.
+            </p>
+            <p>
+              REST code
+            </p>
+              <p>
+                <pre><code>
+    def getUser(self, url, key, secret, token):
+        # returns a single user
+        print('[Users:getUser()] token: ' + token)
+        #"Authorization: Bearer $token"
+        authStr = 'Bearer ' + token
+        print('[Users:getUser()] authStr: ' + authStr)
+        session = requests.session()
+
+        print("[Users:getUser()] GET Request URL: https://%s" % url)
+        
+        r = session.get("https://" + url, headers={'Authorization':authStr},  verify=False)
+
+        print("[Users:getUser()] STATUS CODE: " + str(r.status_code) )
+        print("[Users:getUser()] RESPONSE:")
+        if r.text:
+            res = json.loads(r.text)
+            parsed_json = json.loads(r.text)
+            print(json.dumps(res,indent=4, separators=(',', ': ')))
+        else:
+            print("NONE")
+
+        return parsed_json
+
+                </code></pre>
+            </p>
+            <p>
+              Flask 
+              </p>
+              <p>
+              <pre><code>
+                @app.route('/user/<userId>')
+def User(userId=None):
+    """
+    Return Single User identified by userId
+    """
+    settings = {'settings':app.config}
+    target = app.config["TARGET_URL"] + app.config["USER_PATH"]
+    if (userId is None):
+        # This is only used by the visit_form on the index page.
+        print("[view::User] userId = None: userId required.")
+    else:
+        print("[view::User] userId = %s" % userId)
+        target += userId
+        print("[view::User] target = %s" % target)
+
+    #check authZ
+    auth.AuthToken(target, app.config["CERT_PATH"]).confirmToken(app)
+
+    result = users.Users().getUser(target, app.config["OAUTH_KEY"], app.config["OAUTH_SECRET"], app.config['TOKEN'])
+    userJSON = json.dumps(result)
+    
+    return render_template('user.html',
+                           target_url=target,
+                           userJSON=userJSON,
+                           resultsJSON=result,
+                           settings=settings)
+
+                </code></pre>
+            </p>
             <h3>User JSON</h3>
             <p>{{userJSON}}</p>
             </div>

@@ -19,9 +19,9 @@ CERT_PATH = "./certs/dev.bbdn.local.pem"
 #OAUTH_KEY = "your oauth key here"
 #OAUTH_SECRET = "your oauth secret here"
 #TARGET_URL = "dev.bbdn.local:8443"
-TARGET_URL = "ultra-integ.int.bbpd.io"
 
-#Heroku configs Comment out if not using Heroku Toolbelt or Heroku deployment and use the above Local configs
+#Heroku configs Comment out if not using Heroku Toolbelt 
+#or Heroku deployment and use the above Local configs
 OAUTH_KEY = os.environ.get('APP_OAUTH_KEY', '')
 OAUTH_SECRET = os.environ.get('APP_OAUTH_SECRET', '')
 TARGET_URL = os.environ.get('APP_TARGET_URL', '')

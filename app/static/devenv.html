@@ -208,6 +208,22 @@ provides the necessary entitlements for REST API access. (see <a href="https://c
         <ul>
           <li>cd to the project directory</li>
           <li><code>run $pip install -r requirements.txt</code></li>
+          <li>edit config.py to reflect your local target, oath, and secret:<br>
+          <pre><code>
+#Local configs Comment out if using Heroku
+OAUTH_KEY = "your oauth key here"
+OAUTH_SECRET = "your oauth secret here"
+TARGET_URL = "dev.bbdn.local:8443"
+
+#Heroku configs Comment out if not using Heroku Toolbelt 
+#or Heroku deployment and use the above Local configs
+#OAUTH_KEY = os.environ.get('APP_OAUTH_KEY', '')
+#OAUTH_SECRET = os.environ.get('APP_OAUTH_SECRET', '')
+#TARGET_URL = os.environ.get('APP_TARGET_URL', '')
+            </code></pre>
+          </li>
+          <li>edit config.py to comment out the heroku settings</li>
+          
         </ul>
       </li>
     </ul>

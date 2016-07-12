@@ -68,6 +68,57 @@
           <div class="col-md-12">
             <h1>What Just Happened?</h1>
             <p>Explain.</p>
+            <p><pre><code>
+    def getCourse(self, url, key, secret, token):
+        print('[Course:getCourse()] token: ' + token)
+        #"Authorization: Bearer $token"
+        authStr = 'Bearer ' + token
+        session = requests.session()
+        
+        r = session.get("https://" + url, headers={'Authorization':authStr},  verify=False)
+
+        if r.text:
+            res = json.loads(r.text)
+            parsed_json = json.loads(r.text)
+        else:
+            print("NONE")
+
+        return parsed_json
+
+
+</code></pre></p>
+<p>
+  <pre><code>
+@app.route('/course/<courseId>')
+def Course(courseId=None):
+    """
+    Return Single Course identified by courseId
+    """
+    settings = {'settings':app.config}
+    target = app.config["TARGET_URL"] + app.config["COURSE_PATH"]
+    if (courseId is None):
+        # This is only used by the visit_form on the index page.
+        print("[view::Course] courseId = None: courseId required.")
+    else:
+        print("[view::Course] courseId = %s" % courseId)
+        target += courseId
+        print("[view::Course] target = %s" % target)
+
+    #check authZ
+    auth.AuthToken(target, app.config["CERT_PATH"]).confirmToken(app)
+ 
+    result = courses.Courses().getCourse(target, app.config["OAUTH_KEY"], app.config["OAUTH_SECRET"], app.config['TOKEN'])
+    courseJSON = json.dumps(result)
+    
+    return render_template('course.html',
+                           target_url=target,
+                           courseJSON=courseJSON,
+                           resultsJSON=result,
+                           settings=settings)
+
+
+  </code></pre>
+</p>
             <h3>Course JSON</h3>
             <p>{{courseJSON}}</p>
             </div>

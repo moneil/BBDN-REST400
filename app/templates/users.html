@@ -90,6 +90,80 @@
           <div class="col-md-12">
             <h1>What Just Happened?</h1>
             <p>Explain.</p>
+            <p>
+              <pre>
+                <code>
+    def getUsers(self, url, key, secret, token): 
+        '''
+        Returns a Collection of Users
+        '''
+        URL = 'https://' + url
+        print('[Users:getUsers()] token: ' + token)
+        #"Authorization: Bearer $token"
+        authStr = 'Bearer ' + token
+        print('[Users:getUsers()] authStr: ' + authStr)
+        session = requests.session()
+        #session.mount('https://', Tls1Adapter()) # remove for production
+        print("[Users:getUsers()] GET Request URL: %s" % URL)
+  
+        r = session.get(URL, headers={'Authorization':authStr}, verify=False)
+        
+        print("[Users:getUsers()]: " + str(r.status_code))
+        r.raise_for_status()
+
+        if r.text:
+            parsed_json = json.loads(r.text)
+        else:
+            parsed_json = None
+            print("NONE")
+        
+        return parsed_json
+
+                </code>
+              </pre>
+            </p>
+            <p>
+            Flask
+              <pre><code>
+@app.route('/users')
+@app.route('/users/<paginateId>')
+def Users(paginateId=None):
+    """
+    Return Users Collection
+    """
+    settings = {'settings':app.config}
+    target = app.config["TARGET_URL"] + app.config["USERS_PATH"]
+    if paginateId is None:
+        # This is only used by the visit_form on the index page.
+        print("paginateId = None: Using configured users_path.")
+    else:
+        target = (target[:(target.rfind('=')-len(target))])+"="+paginateId
+
+    #check authZ
+    auth.AuthToken(target, app.config["CERT_PATH"]).confirmToken(app)
+ 
+    result = courses.Courses().getCourses(target, app.config["OAUTH_KEY"], app.config["OAUTH_SECRET"], app.config['TOKEN'])
+    
+    usersJSON = json.dumps(result)
+    nextpageURL = result["paging"]["nextPage"]    
+    dataOffset = nextpageURL[(nextpageURL.rfind('=')+1-len(nextpageURL)):]
+
+    limitInt = int(app.config["LIMIT"])
+    dataOffsetInt = int(dataOffset)
+
+    if (dataOffsetInt < limitInt):
+        dataOffset = None
+
+    return render_template('users.html',
+                           target_url=target,
+                           usersJSON=usersJSON,
+                           resultsJSON=result,
+                           pagingJSON=result["paging"],
+                           nextpageURL=nextpageURL,
+                           dataOffset=dataOffset,
+                           settings=settings)
+
+</code></pre>
             <h3>Users JSON</h3>
             <p>{{usersJSON}}</p>
             </div>

@@ -40,8 +40,13 @@
         <div class="row">
           <div class="col-md-12 text-center">
             <div class="jumbotron">
-              <h1>GIT Setup</h1>
-              <p>Content to Come...
+              <h1>GIT Setup, GITHub, Heroku, and local Development</h1>
+              <p>GIT is a source code repository that offers tools and features that are 
+                beneficial to any developer. GIT offers tools and features that are especially 
+                useful in REST development.
+                GitHub is an online version of GIT which allows for broader management, sharing and distribution
+                of projects.
+                Heroku is a service provider for...
               </p>
               <a class="btn btn-primary btn-large">Learn more</a>
             </div>
@@ -49,6 +54,180 @@
         </div>
       </div>
     </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+              <h1 class="text-primary">Git setup</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h1 class="text-primary">Heroku and Git</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h1 class="text-primary">Git and Using a virtual Machine</h1>
+            <p>
+              The ability to deploy to your test environment 
+              and restart services on your local speeds the development 
+              cycle through the removal of manual processes beyond code
+              the manual code push.
+            </p>
+            <p>
+              https://git-scm.com/docs/githooks
+            </p>
+            Setting up the Virtual Machine
+SSH into the server and run-
+$ sudo adduser bbdn
+$ sudo adduser bbdn sudo 
+to create a user with sudo privileges
 
+su -l to the bbdn user and 
+$ sudo apt-get update
+$ sudo apt-get install -y python python-pip python-virtualenv nginx gunicorn
+to install the tools necessary for running the REST service on your VM
+
+Create a directory for the application:
+$ sudo mkdir /home/www && cd /home/www
+
+Create and activate a virtualenv:
+$ sudo virtualenv env
+$ source env/bin/activate
+
+Install Flask:
+$ sudo pip install Flask==0.10.1
+
+Now set up the project:
+$ sudo mkdir bbdn-rest400 && cd bbdn-rest400
+
+Copy the bbdn-rest400 source into bbdn-rest400
+(You can unzip the downloaded GIT project into this directory)
+the directory structure should be:
+bbdn-rest400 -|
+              |- app <= this is the application directory
+              |- app.json <= this describes the app
+              |- ...
+              |- config.py <= application config settings
+              |- ...
+              |- requirements.txt <= application requirements
+              |- run.py <= used to start the application
+              |- runtime.txt <= runtime environment
+
+Start nginx:
+$ sudo /etc/init.d/nginx start
+
+Then:
+$ sudo rm /etc/nginx/sites-enabled/default
+$ sudo touch /etc/nginx/sites-available/bbdn-rest400
+$ sudo ln -s /etc/nginx/sites-available/bbdn-rest400 /etc/nginx/sites-enabled/bbdn-rest400
+
+Edit the config settings:
+$ sudo vi /etc/nginx/sites-enabled/bbdn-rest400
+
+server {
+    location / {
+        proxy_pass http://localhost:8000;
+        proxy_pass 
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+    location /static {
+        alias  /home/www/bbdn-rest400/static/;
+    }
+}
+
+(http://nginx.org/en/docs/http/configuring_https_servers.html for HTTPS)
+
+Restart nginx:
+$ sudo /etc/init.d/nginx restart
+
+$ cd /home/www/bbdn-rest400/
+$ gunicorn app:app -b localhost:8000
+
+The latter command manually runs gunicorn on localhost port 8000.
+
+Open your browser and navigate to http://your_domain_name_or_ip_address.
+
+Test out the /is_up URL, if all is well you should see the "The BBDN-REST400 demo is running." message. 
+
+Navigate to http://your_domain_name_or_ip_address and you should see the bbdn-rest400 homepage. 
+
+Automating 
+You now have a working demo, but the problem remains that you have to manually (re)start gunicorn each time you make changes to the app. This can be automated with Supervisor.
+
+Configure Supervisor
+SSH into your server, and then install Supervisor:
+
+$ sudo apt-get install -y supervisor
+Now create a configuration file:
+
+$ sudo vim /etc/supervisor/conf.d/bbdn-rest400.conf
+Add:
+[program:bbdn-rest400]
+command = gunicorn app:app -b localhost:8000
+directory = /home/www/bbdn-rest400
+user = bbdn
+
+Stop gunicorn:
+$ sudo pkill gunicorn
+Start gunicorn with <a href="http://supervisord.org/">supervisor</a> (http://supervisord.org/):
+
+$ sudo supervisorctl reread
+$ sudo supervisorctl update
+$ sudo supervisorctl start bbdn-rest400
+
+(Check out the Supervisor <a href="http://supervisord.org/index.html">documentation</a> for custom configuration info.)
+
+Deployment
+To auto restart services on code change you will use a post-receive Git Hook along with Git, 
+install Git on your remote environment (VM):
+$ sudo apt-get install -y git
+
+Set up a bare GIT repo to receive the initial code push
+$ sudo mkdir /home/git && cd /home/git
+$ sudo mkdir bbdn-rest400.git && cd bbdn-rest400.git
+$ sudo git init --bare
+
+Configure the Post-Receive Hook
+$ sudo vim hooks/post-receive
+Add:
+
+#!/bin/sh
+GIT_WORK_TREE=/home/www/bbdn-rest400 git checkout -f
+sudo supervisor restart bbdn-rest400
+
+Now on every push, the new files will copy over to the app directory, “/home/www/bbdn-rest400”.
+
+Make the file executable:
+$ sudo chmod +x hooks/post-receive
+
+Back in your local project directory (“bbdn-rest400”) add a new Git repo along with the following remote:
+
+$ git init
+$ git remote add test root@<your_ip_or_domain>:/home/git/bbdn-rest400.git
+
+Now when you commit your local changes, and push:
+$ git add -A
+$ git commit -am "initial"
+$ git push test master
+
+The changes are pushed to your test server and the post-receive script copies the code to the project
+web site and restarts the service
+
+You can expand on these capabilities by using 
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

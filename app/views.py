@@ -92,6 +92,7 @@ def Courses(paginateId=None):
 
     
     result = courses.Courses().getCourses(target, app.config["OAUTH_KEY"], app.config["OAUTH_SECRET"], app.config['TOKEN'])
+    
     coursesJSON = json.dumps(result)
     nextpageURL = result["paging"]["nextPage"]
     print("nextpageURL: %s" %nextpageURL)
@@ -256,7 +257,7 @@ def Course(courseId=None):
 @app.route('/user/<userId>')
 def User(userId=None):
     """
-    Return Single Course identified by courseId
+    Return Single user identified by userId
     """
     settings = {'settings':app.config}
     target = app.config["TARGET_URL"] + app.config["USER_PATH"]

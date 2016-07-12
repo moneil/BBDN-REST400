@@ -21,7 +21,7 @@ class Users():
 
     def getUsers(self, url, key, secret, token): 
         '''
-        Returns a course Collection
+        Returns a Collection of Users
         '''
         URL = 'https://' + url
         print('[Users:getUsers()] token: ' + token)
@@ -46,6 +46,7 @@ class Users():
         return parsed_json
 
     def getUser(self, url, key, secret, token):
+        # returns a single user
         print('[Users:getUser()] token: ' + token)
         #"Authorization: Bearer $token"
         authStr = 'Bearer ' + token
