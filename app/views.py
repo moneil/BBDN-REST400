@@ -340,6 +340,13 @@ def UserMemberships(userId=None):
                             dataOffset=dataOffset,
                             settings=settings) 
 
+@app.errorhandler(500)
+def internal_system_error(e):
+    return render_template('500.html'), 500
+
+# @app.errorhandler(400)
+# def not_authorized_error(e):
+#     return render_template('500.html'), 400
 
 if __name__ == '__main__':
     app.run()

@@ -41,7 +41,7 @@
           <div class="col-md-12 text-center">
             <div class="jumbotron">
               <h1 class="text-primary">Flask and Bootstrap</h1>
-              We mentioned that two best practices for RESTful development is statless and 
+              Two best practices for RESTful development are stateless and 
               responsive design. This demo uses two open projects and their libraries to achieve both - Flask and Bootstrap.
             </div>
           </div>
@@ -55,29 +55,94 @@
               <h1 class="text-primary">Flask and Bootstrap</h1>
               <h3>Flask</h3>
               <p>Flask is a modular MVC framework - there are other popular frameworks such as Django. Flask 
-              was chosen for its modulararity and simplicity. Flask uses a template renderer called Jinga 
-              for delivery of pages populated with REST requested data.
-              </p>
+              was chosen for its modulararity and simplicity. Flask (Controller) uses a template renderer 
+              called Jinga for delivery of pages (Views) populated with REST requested data (Model).
+              <br>
+              For a complete description on Flask and it's usage you may visit </p>
               <div class="col-md-12 text-center">
                 <p>
-                  <a class="btn btn-lg btn-primary" href="#flask">More on Flask</a>
+                  <a href="#flask" class="btn btn-lg btn-primary" href="#flask">More on Flask</a>
                 </p>
               </div>
               <h3>Bootstrap</h3>
               <p>Bootstrap is a responsive design library originally developed by Twitter which provides the 
                 CSS libraries which facilitate building of responsive web pages. There are many design tools available to assist with 
-                responsive page layout - licensed and free. This demo was built using Pingendo.
+                responsive page layout - licensed and free. This demo was built using Pingendo.</br>
+                For a comprehensive description of Bootstrap and it's use you may visit the Bootstrap site at <a href="http://getbootstrap.com/">
+                http://getbootstrap.com</a>
               </p>
               <div class="col-md-12 text-center">
                 <p>
-                  <a class="btn btn-lg btn-primary" href="#bootstrap">More on Bootstrap</a>
+                  <a href="#bootstrap" class="btn btn-lg btn-primary" href="#bootstrap">More on Bootstrap</a>
                 </p>
-              </div>
+                </p>
+Bootstrap is built to work best in the latest desktop and mobile browsers, meaning older browsers might display differently styled, though fully functional, renderings of certain components.                </p>
+              </div>                
             </div>
           </div>
         </div>
       </div>
     </div>
-
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+              <h1 class="text-primary">Alternatives</h1>
+              While this demo uses Flask and Bootstrap there are alternatives from which to select that may better suit your design or development goals.
+              <h3>Flask</h3>
+              There are several alternatives to Flask - a good list with descriptions is available at <a href="https://wiki.python.org/moin/WebFrameworks">https://wiki.python.org/moin/WebFrameworks</a>
+              <h3>Bootstrap</h3>
+              <p>
+                A nice list of 21 alternatives to Bootstrap is available at <a href="http://designsparkle.com/bootstrap-alternatives/">http://designsparkle.com/bootstrap-alternatives/</a>
+              </p>
+              <p>
+                If you are interested in using Google's Material Design a list of Material Design frameworks may be found here 
+                <a href="http://tutorialzine.com/2016/03/the-15-best-material-design-frameworks-and-libraries/">http://tutorialzine.com/2016/03/the-15-best-material-design-frameworks-and-libraries/</a>
+              </p>
+              <p>
+                Finally, WC3 offers an alternative to Bootstrap called <a href="http://www.w3schools.com/w3css/default.asp">wc3.css</a>, you may also choose to roll your own but libraries and templates will save you time!
+              </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+              <h1 class="text-primary" id="flask" >More Flask</h1>
+              <p>
+                You may use this demo as a Flask project template, but there are others available - a quick search of the internet will surface a few.<br>
+                The general functional layout of a Flask based project is as follows:
+              </p>
+              <p>
+<pre><code> 1 project_directory/
+ 2  __init__.py
+ 3  run.py
+ 4  config.py
+ 4  requirements.txt
+ 5  app/
+ 6    static/
+ 7    templates/
+ 8    views.py
+ 9    models...
+</code></pre>
+where run.py is the flask application startup script, config.py contains the application configuration, requirements.txt is a file containing a list of dependencies, 
+the app directory contains the actual application. The static and templates directories contain
+the static html and jinga templates respectively. The app/views.py is the 'control' file flask uses to direct
+incoming requests, and there may be multiple models called by the control code.<br>
+There is a degree of flexibility in how you organize flask projects including the use of blueprints for more complicated projects.
+</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+              <h1 class="text-primary" id="bootstrap" >More Bootstrap</h1>
+              <p>
+...              </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
